@@ -20,7 +20,8 @@ Chris Rasmussen, Developer Content Architect, Nutanix (Melbourne, AU)
 Changelog
 .........
 
-- 2019.09.18 - Rewrote large parts for better Python readability
+- 2019.07.22 - Removed all references to PDF generation and replaced with HTML generation
+- 2019.07.18 - Rewrote large parts for better Python readability
 - 2018.08.30 - Committed setup.py and Pipenv usage suggestions.  Added some exception handling re PC host vs PE host.
 - 2018.07.21 - Added better parameter input and options.
 - 2018.04.22 - Updated with installation and usage instructions for Windows 10 64-bit.
@@ -30,7 +31,7 @@ Changelog
 Details
 .......
 
-Connect to a Nutanix Prism Central instance, grab some high-level details then generate a PDF from it.
+Connect to a Nutanix Prism Central instance, grab some high-level details then generate an HTML report from it.
 
 The intention is to use this script to generate very high-level and *unofficial* as-built documentation.
 
@@ -97,7 +98,7 @@ Custom Templates
 
 **Summary**
 
-The repo includes 'templates/nutanixv3.html', an HTML5 document containing a sample layout that can be used with this script.  If you want to modify the generated PDF's content or layout, edit templates/nutanixv3.html to suit your requirements.
+The repo includes 'templates/nutanixv3.html', an HTML5 document containing a sample layout that can be used with this script.  If you want to modify the generated HTML report's content or layout, edit templates/nutanixv3.html to suit your requirements.
 
 **Available Fields**
 
@@ -119,16 +120,16 @@ As of the current release, the required fields in templates/nutanixv3.html are a
 - $username                   [ The username of the current logged-in user ]
 - $computer_name               [ The current local computer name ]
 
-**PDF Formatting**
+**HTML Formatting**
 
-As of version 2.0, this script uses 'WeasyPrint' for PDF generation.  Please see the [WeasyPrint docs](http://weasyprint.readthedocs.io/en/latest) for detailed information on the available formatting options.
+As of version 3.0, this script uses Bootstrap and Google Fonts for HTML formatting.
 
 Screenshot
 ..........
 
-This is what the PDF looks like, once generated (partial screenshot shown):
+This is what the HTML report looks like, once generated (partial screenshot shown):
 
-.. figure:: screenshot_pdf.png
+.. figure:: screenshot_html.png
 
 To-do
 .....

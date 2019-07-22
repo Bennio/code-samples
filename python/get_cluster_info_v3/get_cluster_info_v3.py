@@ -1,7 +1,7 @@
-#!/usr/bin/env python3.7
+#!/usr/bin/env python
 
 '''
-Python >=3.7 script to generate a human-readable PDF
+Python >=3.7 script to generate a human-readable HTML
 report on a specified Nutanix Prism Central instance
 '''
 
@@ -18,8 +18,6 @@ try:
     import urllib3
     import requests
     from requests.auth import HTTPBasicAuth
-    from weasyprint import HTML, CSS
-    from weasyprint.fonts import FontConfiguration
 except ModuleNotFoundError as error:
     # Output expected ImportErrors.
     print(f'''
@@ -56,7 +54,7 @@ class EnvironmentOptions():
         self.username = ""
         self.password = ""
         self.debug = False
-        self.read_timeout = 3
+        self.read_timeout = 10
         self.entity_response_length = 20
         # these are the supported entities for this environment
         self.supported_entities = ['vm', 'subnet', 'cluster', 'project',
@@ -123,7 +121,7 @@ class EnvironmentOptions():
         '''
         self.cluster_ip = args.pc_ip
 
-        self.debug = bool(args.debug == 'enable')
+        self.debug = True if args.debug == 'enable' else False
 
 
 class ApiClient():
@@ -133,6 +131,7 @@ class ApiClient():
     responses, as well as any errors that returned from the
     response
     '''
+
     def __init__(self, cluster_ip, request, body,
                  username, password, timeout=10):
         self.cluster_ip = cluster_ip
@@ -203,7 +202,6 @@ class ApiClient():
                   f'{api_request.status_code})')
         else:
             if api_request.status_code == 401:
-                # authentication error
                 print('An authentication error occurred while connecting to '
                       f'{self.cluster_ip}. Please check your credentials, '
                       'then try again.')
@@ -214,7 +212,6 @@ class ApiClient():
                 sys.exit()
             else:
                 print("Connected and authenticated successfully.")
-
         return api_request.json()
 
 
@@ -224,13 +221,12 @@ ENTITY_TOTALS = {}
 
 def generate_template(json_results):
     '''
-    generate the actual PDF
-    this is where weasyprint is used
+    generate the HTML
     '''
     day = strftime('%d-%b-%Y', localtime())
     time = strftime('%H%M%S', localtime())
     now = f'{day}_{time}'
-    pdf_filename = f'{now}_prism_central.pdf'
+    html_filename = f'{now}_prism_central.html'
 
     '''
     the next block parses some of the Prism Central info that
@@ -253,7 +249,6 @@ def generate_template(json_results):
     print('\n')
 
     for json_result in json_results:
-
         # collect info that is common to all entity types
         for entity in json_result:
             if entity in supported_entities:
@@ -266,7 +261,7 @@ def generate_template(json_results):
         note that the next long section seems a little repetitive, but the
         string formatting for each entity is different enough to do it this way
         if each entity's info 'block' was the same, we could setup an iterator
-        or use common formatting, but then the generated PDF wouldn't be very
+        or use common formatting, but then the generated HTML wouldn't be very
         useful
         '''
 
@@ -290,6 +285,7 @@ def generate_template(json_results):
                                     'Expected VM data is missing or malformed.'
                                     'Please check the JSON response.'
                                     '</td></tr>')
+
         ##########
         # SUBNET #
         ##########
@@ -474,7 +470,7 @@ def generate_template(json_results):
                         bp_project = ((blueprint["metadata"]
                                        ["project_reference"]["name"])
                                       if 'project_reference' in (
-                                          blueprint['metadata']
+                                        blueprint['metadata']
                                       ) else 'N/A')
 
                         HTML_ROWS["blueprint"] += (f'<tr><td>{entity_name}'
@@ -552,44 +548,23 @@ def generate_template(json_results):
         computer_name=socket.gethostname(),
     )
 
-    # generate the final PDF file
-    convert_html_to_pdf(template, pdf_filename)
+    # generate the final HTML file
+    export_html_report(template, html_filename)
 
-    print(f'Finished generating PDF file: {pdf_filename}')
+    print(f'Finished generating HTML file: {html_filename}')
     print('\n')
 
 
-def convert_html_to_pdf(source_html, output_filename):
+def export_html_report(source_html, output_filename):
     '''
-    utility function for converting HTML to PDF
+    utility function for exporting our HTML report
     this could be done "in-line" but has been made a function
     in case it needs to be repeated later
     '''
-    # open output file for writing (truncated binary)
 
-    font_config = FontConfiguration()
-
-    pdf_output = HTML(string=source_html)
-    pdf_output.write_pdf(
-        output_filename,
-        stylesheets=[
-            CSS(
-                string='''
-        h1 { color: #3f6fb4; }
-        body { font-family: sans-serif; font-size: 80%; line-height: 1.2em; }
-        #main_content { margin: 0 auto; text-align: left; width: 75%; }
-        table{ width: 100%; border-bottom: 1px solid #ddd;
-        padding-bottom: 20px; }
-        tr.final { border-bottom: 1px solid #eee; padding: 3px 0; }
-        tr.footer { padding: 5px; text-align: center; }
-        tr.tr_header { font-weight: bold; }
-        td,p { padding: 3px; }
-        div#footer_content { text-align: center; margin-top: 20px; }
-    ''',
-                font_config=font_config,
-            )
-        ],
-    )
+    # open output file for writing and export the HTML
+    with open(output_filename, 'w') as f:
+        f.write(source_html)
 
 
 def show_intro():
@@ -603,7 +578,7 @@ def show_intro():
 {sys.argv[0]}:
 
 Connect to a Nutanix Prism Central instance, grab some high-level details then
-generate a PDF from it
+generate an HTML file from it
 
 Intended to generate a very high-level and *unofficial* as-built document for
 an existing Prism Central instance.
@@ -629,7 +604,7 @@ def main():
 
     '''
     make sure our template exists
-    this html template dicates how the generated PDF will look
+    this html template dicates how the generated HTML report will look
     '''
     if os.path.isfile(f'{current_path}/templates/nutanixv3.html'):
         show_intro()
@@ -697,7 +672,7 @@ def main():
                 json_results.append([endpoint['name'], results])
 
             if environment_options.debug:
-                print('Generating PDF ...\n')
+                print('Generating HTML template ...\n')
             generate_template(json_results)
 
     else:
