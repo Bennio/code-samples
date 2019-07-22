@@ -1,3 +1,4 @@
+####################
 Nutanix Cluster Info
 ####################
 
@@ -7,18 +8,21 @@ Nutanix Cluster Info
 
 High-level testing has been carried out on AOS versions from 5.5.0.6 to 5.10.5.  Later versions may cause unpredictable results.
 
+**********
 Disclaimer
-..........
+**********
 
 This is **not** a production-grade script.  Please make sure you add appropriate exception handling and error-checking before running it in production.  See note re versions below, too.
 
+******
 Author
-......
+******
 
 Chris Rasmussen, Developer Content Architect, Nutanix (Melbourne, AU)
 
+*********
 Changelog
-.........
+*********
 
 - 2019.07.22 - Removed all references to PDF generation and replaced with HTML generation
 - 2019.07.18 - Rewrote large parts for better Python readability
@@ -28,8 +32,9 @@ Changelog
 - 2018.04.04 - Published version based on Prism Central and v3 API.
 - 2017.09.06 - Published new version based on Python 3.
 
+*******
 Details
-.......
+*******
 
 Connect to a Nutanix Prism Central instance, grab some high-level details then generate an HTML report from it.
 
@@ -37,8 +42,12 @@ The intention is to use this script to generate very high-level and *unofficial*
 
 The other idea is for you, the user, to take this script and modify it to suit your requirements.
 
+*****
 Usage
-.....
+*****
+
+Virtual Environment
+===================
 
 All the steps below assume you have a terminal session running with the current directory set to the location of the script.
 
@@ -60,16 +69,8 @@ All the steps below assume you have a terminal session running with the current 
    - **self.entity_response_length** - Dictates how many entities are returned from a single request. **Maximum** value can be **500**.
    - **self.read_timeout** - Increase or decrease depending on the desired timeout delay (in seconds) for each request
 
-Notes
-.....
-
-- This script **did** support Community Edition, but now supports "full" Prism Central only
-- High-level testing has been carried out on AOS versions from 5.5.0.6 to 5.10.5.
-- Later versions may cause unpredictable results.
-- The installation of specific Python versions, pip3 etc are beyond the scope of this readme
-
 Script Command Line
-...................
+===================
 
 .. code-block:: bash
 
@@ -93,14 +94,26 @@ Generates:
      -d [enable/disable], --debug [enable/disable]
                            Enable/disable debug mode e.g. show debug info at various stages through the script
 
-Custom Templates
-................
+*****
+Notes
+*****
 
-**Summary**
+- This script **did** support Community Edition, but now supports "full" Prism Central only
+- High-level testing has been carried out on AOS versions from 5.5.0.6 to 5.10.5.
+- Later versions may cause unpredictable results.
+- The installation of specific Python versions, pip3 etc are beyond the scope of this readme
+
+****************
+Custom Templates
+****************
+
+Summary
+=======
 
 The repo includes 'templates/nutanixv3.html', an HTML5 document containing a sample layout that can be used with this script.  If you want to modify the generated HTML report's content or layout, edit templates/nutanixv3.html to suit your requirements.
 
-**Available Fields**
+Available Fields
+================
 
 Please make sure the file is saved as 'templates/nutanixv3.html' when you are finished.
 
@@ -120,24 +133,28 @@ As of the current release, the required fields in templates/nutanixv3.html are a
 - $username                   [ The username of the current logged-in user ]
 - $computer_name               [ The current local computer name ]
 
-**HTML Formatting**
+HTML Formatting
+===============
 
 As of version 3.0, this script uses Bootstrap and Google Fonts for HTML formatting.
 
+**********
 Screenshot
-..........
+**********
 
 This is what the HTML report looks like, once generated (partial screenshot shown):
 
 .. figure:: screenshot_html.png
 
+*****
 To-do
-.....
+*****
 
 - Change $variable substitution to use Jinja2
 
+*******
 Support
-.......
+*******
 
 These scripts are *unofficial* and are not supported or maintained by Nutanix in any way.
 
