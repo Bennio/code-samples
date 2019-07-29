@@ -107,7 +107,7 @@ Generates:
 APP_PROFILE parameter
 =====================
 
-If the **APP_PROFILE** parameter is not specified using **-a** or **--app-profile**, the script will look for an application profile named **Default**.  If no application is found with the name **Default**, the API will throw an HTTP 422 error that indicates the provided app_profile_reference does not match the required format.  The script could easily be modified to check for this case, but has been written this way so users can see what happens in this instance.  For example:
+If the **APP_PROFILE** parameter is not specified using **-a** or **--app_profile**, the script will look for an application profile named **Default**.  If no application is found with the name **Default**, the API will throw an HTTP 422 error that indicates the provided app_profile_reference does not match the required format.  The script could easily be modified to check for this case, but has been written this way so users can see what happens in this instance.  For example:
 
 .. code-block:: bash
 
