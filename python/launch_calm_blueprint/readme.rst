@@ -77,13 +77,13 @@ Script Command Line
 
 .. code-block:: bash
 
-   ./launch_calm_blueprint.py --help:
+   ./launch_calm_blueprint_v3.py --help:
 
 Generates:
 
 .. code-block:: bash
 
-   usage: launch_calm_blueprint.py [-h] [-a APP_PROFILE] [-u USERNAME]
+   usage: launch_calm_blueprint_v3.py [-h] [-a APP_PROFILE] [-u USERNAME]
                                    [-p PASSWORD] [-d DEBUG]
                                    pc_ip blueprint_uuid app_name app_desc
 
@@ -132,7 +132,7 @@ A complete command-line example including all required parameters and optional *
 
 .. code-block:: bash
 
-   ./launch_calm_blueprint.py 10.134.72.95 22f83818-de02-4d91-8fff-123d067e2fff SimpleLaunchDemo14 "Simple Launch Demo 14" --debug enable -u <username> -p <password> -a cea75177-61f8-4e14-b8ef-339a36b055f1;
+   ./launch_calm_blueprint_v3.py 10.134.72.95 22f83818-de02-4d91-8fff-123d067e2fff SimpleLaunchDemo14 "Simple Launch Demo 14" --debug enable -u <username> -p <password> -a cea75177-61f8-4e14-b8ef-339a36b055f1;
 
 **********
 Screenshot
