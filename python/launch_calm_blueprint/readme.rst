@@ -34,6 +34,18 @@ The intention is to use this approach for the launch of Nutanix Calm blueprints 
 
 Requires only the blueprint UUID; all other requirements are extracted from the blueprint by making other API requests.
 
+Modules
+=======
+
+Two major parts of the script have been broken out into separate modules:
+
+- EnvironmentOptions
+- ApiClient
+
+As each name suggests, command-line/environment options are handled by **EnvironmentOptions** and the API requests are handled by **ApiClient**.
+
+This isn't mandatory but can form the basis for good practice later.
+
 *****
 Usage
 *****
