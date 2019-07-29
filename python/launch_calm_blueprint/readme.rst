@@ -77,7 +77,7 @@ Script Command Line
 
 .. code-block:: bash
 
-   ./launch_calm_blueprint_v3.py --help:
+   ./launch_calm_blueprint_v3.py --help
 
 Generates:
 
